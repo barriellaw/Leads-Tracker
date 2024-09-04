@@ -5,6 +5,8 @@ const ulEl = document.getElementById("ul-el")
 const deleteBtn = document.getElementById("delete-btn")
 const leadsFromLocalStorage = JSON.parse( localStorage.getItem("myLeads") )
 const tabBtn = document.getElementById("tab-btn")
+const downloadBtn = document.getElementById("download-btn")
+const fileTypeSelector = document.getElementById("fileType")
 
 if (leadsFromLocalStorage) {
     myLeads = leadsFromLocalStorage
