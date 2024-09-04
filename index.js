@@ -47,3 +47,47 @@ inputBtn.addEventListener("click", function() {
     localStorage.setItem("myLeads", JSON.stringify(myLeads) )
     render(myLeads)
 })
+
+downloadBtn.addEventListener("click", function() {
+    const selectedFileType = fileTypeSelector.value
+
+    if (selectedFileType === "csv") {
+        downloadAsCSV()
+    } else if (selectedFileType === "pdf") {
+        downloadAsPDF()
+    } else if (selectedFileType === "txt") {
+        downloadAsTXT()
+    }
+})
+
+function downloadAsCSV() {
+    const csvContent = "data:text/csv;charset=utf-8," + myLeads.join("\n")
+    const encodedUri = encodeURI(csvContent)
+    const link = document.createElement("a")
+    link.setAttribute("href", encodedUri)
+    link.setAttribute("download", "leads.csv")
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+}
+
+function downloadAsTXT() {
+    const txtContent = "data:text/plain;charset=utf-8," + encodeURIComponent(myLeads.join("\n"))
+    const link = document.createElement("a")
+    link.setAttribute("href", txtContent)
+    link.setAttribute("download", "leads.txt")
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+}
+
+function downloadAsPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    for (let i = 0; i < myLeads.length; i++) {
+        doc.text(myLeads[i], 10, 10 + (i * 10));
+    }
+    
+    doc.save('leads.pdf');
+}
